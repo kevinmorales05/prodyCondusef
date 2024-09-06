@@ -7,7 +7,10 @@ const { connectToDatabase, config } = require("./db/config");
 const sql = require("mssql");
 
 app.use(bodyParser.json());
-app.use(cors());
+const corsOptions = {
+  origin: ' https://main--kuhnipay-sistemas-internos.netlify.app/', // Replace with the allowed domain
+};
+app.use(cors(corsOptions));
 
 const port = process.env.PORT || 3000;
 
