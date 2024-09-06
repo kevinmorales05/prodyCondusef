@@ -5,7 +5,7 @@ const axios = require("axios");
 const cors = require("cors");
 const { connectToDatabase, config } = require("./db/config");
 const sql = require("mssql");
-const { sendEmail } = require("./mailServer/mail");
+// const { sendEmail } = require("./mailServer/mail");
 
 app.use(bodyParser.json());
 const corsOptions = {
@@ -70,7 +70,8 @@ app.post("/api/insertReporteAnonimo", async (req, res) => {
       .query(query);
     console.log(result);
     try {
-      sendEmail(Reporte, ComentariosOC);
+      // sendEmail(Reporte, ComentariosOC);
+      
     } catch (error) {
       console.log(error);
     }
