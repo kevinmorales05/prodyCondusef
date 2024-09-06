@@ -10,7 +10,7 @@ const transporter = nodemailer.createTransport({
 });
 
 // Email sending function
-export const sendEmail = (subject, text) => {
+function sendEmail(subject, text){
   const mailOptions = {
     from: 'kevin@quantumpay.mx', // Sender address
     to: 'aclaraciones@kuhnipay.com', // Receiver email
@@ -26,4 +26,7 @@ export const sendEmail = (subject, text) => {
   });
 };
 
+module.exports = {
+    sendEmail
+}
 

@@ -9,7 +9,7 @@ const { sendEmail } = require("./mailServer/mail");
 
 app.use(bodyParser.json());
 const corsOptions = {
-  origin: '*', // Replace with the allowed domain
+  origin: "*", // Replace with the allowed domain
 };
 app.use(cors(corsOptions));
 
@@ -74,7 +74,6 @@ app.post("/api/insertReporteAnonimo", async (req, res) => {
     } catch (error) {
       console.log(error);
     }
-
 
     res.status(201).json({
       message: "The report was succesfully inserted in MINDS",
