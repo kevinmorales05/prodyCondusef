@@ -19,9 +19,9 @@ async function connectToDatabase() {
     let pool = await sql.connect(config);
     console.log("Connected to SQL Server");
 
-    // // Example query
-    // let result = await pool.request().query(`SELECT * FROM Minds_Quantum.dbo.ReporteAnonimo`);
-    // console.log(result);
+    // Example query
+    let result = await pool.request().query(`SELECT * FROM Minds_Quantum.dbo.ReporteAnonimo`);
+    console.log(result);
     return pool;
   } catch (err) {
     console.log("Error: ", err);
