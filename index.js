@@ -8,7 +8,7 @@ const sql = require("mssql");
 
 app.use(bodyParser.json());
 const corsOptions = {
-  origin: 'https://main--kuhnipay-sistemas-internos.netlify.app', // Replace with the allowed domain
+  origin: '*', // Replace with the allowed domain
 };
 app.use(cors(corsOptions));
 
