@@ -13,9 +13,6 @@ const port = process.env.PORT || 3000;
 
 let pool = connectToDatabase();
 
-// Call the function to connect
-//let pool = connectToDatabase();
-
 app.get("/api/hello", (req, res) => {
   res.json({ message: "Hello, World!" });
 });
