@@ -1,11 +1,12 @@
 const sql = require('mssql');
+require('dotenv').config();
 
 // Configuration for the database
 const config = {
-  user: 'minds_qa',          // your SQL Server username
-  password: 'zeqBzBD2N6^SSUCUJxj5',      // your SQL Server password
-  server: '54.81.49.20',  // e.g., 'localhost' or an IP address
-  database: 'master', // name of your database
+  user: process.env.DB_User,          // your SQL Server username
+  password: process.env.DB_Password,      // your SQL Server password
+  server: process.env.DB_Server,  // e.g., 'localhost' or an IP address
+  database: process.env.DB_Name, // name of your database
   options: {
     encrypt: true,               // true for Azure, false for local SQL Server
     trustServerCertificate: true // true for self-signed certificates

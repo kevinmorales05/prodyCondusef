@@ -5,8 +5,8 @@ const axios = require("axios");
 const cors = require("cors");
 const { connectToDatabase, config } = require("./db/config");
 const sql = require("mssql");
-const { mailslurp, inbox } = require("./mailServer/mail");
-// const { sendEmail } = require("./mailServer/mail");
+require('dotenv').config();
+
 
 app.use(bodyParser.json());
 const corsOptions = {
@@ -28,7 +28,7 @@ app.post("/api/refreshToken", async (req, res) => {
 
   try {
     const response = await axios.get(
-      "https://api-reune-pruebas.condusef.gob.mx/auth/users/token/",
+      process.env.API_CONDUSEF,
       {
         data: { username: username, password: password }, // Esto coloca el payload en la solicitud GET
         httpsAgent: new (require("https").Agent)({ rejectUnauthorized: false }),
@@ -47,7 +47,7 @@ app.post("/api/refreshToken", async (req, res) => {
     }
   } catch (error) {
     res.status(201).json({
-      msg: "Contraseña incorrecta",
+      msg: `Contraseña incorrecta ${error}`,
       code: 101,
     });
   }
@@ -121,11 +121,10 @@ app.post("/api/insertReporteAnonimo", async (req, res) => {
       let config = {
         method: "post",
         maxBodyLength: Infinity,
-        url: "https://api.brevo.com/v3/smtp/email",
+        url: process.env.URL_BREVO,
         headers: {
           Accept: "application/json",
-          "api-key":
-            "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",
+          "api-key": process.env.APIKEY_BREVO,
           "Content-Type": "application/json",
         },
         data: dataInfo,
