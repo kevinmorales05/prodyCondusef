@@ -5,6 +5,7 @@ const axios = require("axios");
 const cors = require("cors");
 const { connectToDatabase, config } = require("./db/config");
 const sql = require("mssql");
+const { mailslurp, inbox } = require("./mailServer/mail");
 // const { sendEmail } = require("./mailServer/mail");
 
 app.use(bodyParser.json());
@@ -71,15 +72,84 @@ app.post("/api/insertReporteAnonimo", async (req, res) => {
     console.log(result);
     try {
       // sendEmail(Reporte, ComentariosOC);
-      
+      let emailAddress = "cumplimiento@kuhnipay.com";
+      let htmlContent = `<html>
+    <head></head>
+    <body style="text-align: center;
+            background-color: whitesmoke;">
+        <h2>Kuhnipay Buzón Anónimo</h2>
+        <h1>Reporte anónimo</h1>
+        <p>Por medio de este correo confirmamos que el repote anónimo fue realizado con éxito .</p>
+        <p> <b>Asunto: </b>${Reporte} </p>
+        <p> <b>Fecha: </b>${Fecha} </p>
+        <p> <b>Detalle: </b>${ComentariosOC} </p>
+    </body>
+    <style>
+        body {
+            text-align: center;
+            background-color: whitesmoke;
+        }
+        h1 {
+            font-weight: bolder;
+            font-size: 40px;
+            margin-top: 20px;
+        }
+        h2 {
+            font-size: 20px;
+            margin-top: 60px;
+        }
+        p {
+            font-size: 15px;
+        }
+    </style>
+</html>`;
+
+      let dataInfo = JSON.stringify({
+        sender: {
+          name: "Buzón Anónimo Kuhnipay",
+          email: "kevin@quantumpay.mx",
+        },
+        to: [
+          {
+            email: emailAddress,
+            name: "Cumplimiento",
+          },
+        ],
+        subject: Reporte,
+        htmlContent: htmlContent,
+      });
+      let config = {
+        method: "post",
+        maxBodyLength: Infinity,
+        url: "https://api.brevo.com/v3/smtp/email",
+        headers: {
+          Accept: "application/json",
+          "api-key":
+            "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",
+          "Content-Type": "application/json",
+        },
+        data: dataInfo,
+      };
+      axios
+        .request(config)
+        .then((response) => {
+          //console.log(JSON.stringify(response.data));
+          console.log("response status ", response.status);
+          //console.log('response ', response);
+          if (response.status === 201) {
+            res.status(201).json({
+              message:
+                "El reporte fue realizado con éxito y se entregó un correo de confirmación al equipo de Cumplimiento!",
+              code: "01",
+            });
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     } catch (error) {
       console.log(error);
     }
-
-    res.status(201).json({
-      message: "The report was succesfully inserted in MINDS",
-      code: "01",
-    });
   } catch (error) {
     res.status(201).json({
       message: "The report was unsuccesfully inserted in MINDS",

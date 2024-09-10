@@ -1,32 +1,9 @@
-const nodemailer = require('nodemailer');
+const {MailSlurp} = require('mailslurp-client');
 
-// Create a transporter object
-const transporter = nodemailer.createTransport({
-  service: 'gmail', // Use your SMTP service (Gmail, Outlook, etc.)
-  auth: {
-    user: 'aclaraciones@kuhnipay.com', // Your email
-    pass: 'Kuhniaclaraciones1.', // Your email password or App password
-  },
+const mailslurp = new MailSlurp({
+  apiKey: "c7ca346df7277ebf0edfb1a905d7a4238c8c8321a55d433358c76ade57b58b62",
 });
 
-// Email sending function
-function sendEmail(subject, text){
-  const mailOptions = {
-    from: 'kevin@quantumpay.mx', // Sender address
-    to: 'aclaraciones@kuhnipay.com', // Receiver email
-    subject: subject, // Subject
-    text: text, // Email body
-  };
-
-  transporter.sendMail(mailOptions, (error, info) => {
-    if (error) {
-      return console.log('Error: ', error);
-    }
-    console.log('Email sent: ' + info.response);
-  });
-};
-
 module.exports = {
-    sendEmail
-}
-
+  mailslurp,
+};
